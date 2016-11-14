@@ -1,0 +1,63 @@
+/* app css stylesheet */
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+h1{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#left_progress{
+  margin-top: 10px;
+  width: 80% ; 
+  margin-left: 30%; 
+}
+
+
+.info{
+  text-align: center; 
+  margin-top: 100px ;
+  font-size: 25px ;
+}
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li + li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+.col-xs-12,.col-sm-12,.col-md-12,.col-lg-12{margin-bottom: 20px;}
+
+hr 
+{
+  visibility: hidden;
+}

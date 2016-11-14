@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  <style>
+.col-lg-6 {
+    width: 50%;
+    float: left;
+}
+
+</style>
+</head>
+<body>
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+<div ng-controller="myFirstController">
+
+<h1>DARS REPORT</h1>
+<div style="width: 100%;">
+<table class="table table-striped table-inverse info">
+  <tbody>
+    <tr>
+      <td>Ryan Ding</td>
+      <td>GPA: 2.4/4.0 </td>
+    </tr>
+    <tr>
+      <td>Class of 2018</td>
+      <td>Technical GPA: 2.4/4.0</td>
+    </tr>
+    <tr>
+ 
+      <td><div  id ="left_progress" class="progress">
+      <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{completed()*100/128}}%;f">
+        {{completed()}}
+      </div>
+      <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{inProgress()*100/128}}%;f">
+      {{inProgress()}}
+      </div>
+      <div class="progress-bar progress-bar-danger" role="progressbar" style="width:{{registered()*100/128}}%;f">
+      {{registered()}}
+      </div>
+      </div></td>
+      <td>{{completed()+inProgress()+registered()}}/128 Hours Completed</td>
+
+    </tr> 
+    <tr >
+      <td >
+        <i style="font-size: 30px;color:green;" class="fa fa-square" aria-hidden="true"> Completed</i>
+        <i style="font-size: 30px;margin-left: 100px;color: orange;" class="fa fa-square" aria-hidden="true"> In Progress</i>
+      </td>
+      <td >
+        <i style="font-size: 30px;margin-right: 100px;color:red" class="fa fa-square" aria-hidden="true"> Registered</i>
+        <i style="font-size: 30px;" class="fa fa-square" aria-hidden="true"> What if?</i>
+      </td>
+    </tr> 
+
+  </tbody>
+</table>
+
+
+    <div class="row">
+    
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="pull-right"> <a id="expandAll" href="#" class="btn btn-default" role="button">Expand All</a>
+
+                <a id="collapseAll" href="#" class="btn btn-default" role="button">Collapse All</a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                          Required Classes
+                        </a>
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{filtered1.length*100/20}}%">
+                              Completed 
+                            </div>
+                            <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{filtered2.length*100/20}}%">
+                              In progress
+                            </div>
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width:{{filtered3.length*100/20}}%">
+                              Registered
+                            </div>
+                            <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{noFilter1.length*100/20}}%">
+                                What-Ifs
+                              </div>
+                        </div>
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                      <div class="container-fluid">
+                          <div class="row">
+                          <div class="col-lg-6" ng-repeat="class in filtered1 = (classes | filter:'Required' | filter:'Completed')">
+                                <div class="panel panel-primary" style="background:#3ff600;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                            </div>
+
+                          <div class="col-lg-6" ng-repeat="class in filtered2 = (classes | filter:'Required' | filter:'In-Progress')">
+                                <div class="panel panel-primary" style="background:orange;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                            </div>
+                          <div class="col-lg-6" ng-repeat="class in filtered3 = (classes | filter:'Required' | filter:'Registered')">
+                                <div class="panel panel-primary" style="background:red;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                                </div>
+
+                                <div class="col-lg-6" ng-repeat="class in noFilter1">
+                                <div class="panel panel-primary">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                          Technical Electives
+                        </a>
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{filtered4.length*100/9}}%">
+                              Required Classes
+                            </div>
+                            <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{filtered6.length*100/9}}%">
+                              In Progress
+                            </div>
+                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width:{{filtered5.length*100/9}}%">
+                              Registered
+                            </div>
+                            <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{noFilter2.length*100/9}}%">
+                                What-Ifs
+                              </div>
+                          </div>
+                      </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                      <div class="container-fluid">
+                          <div class="row">
+                          <div class="col-lg-6" ng-repeat="class in filtered4 = (classes | filter:'Technical Electives' | filter:'Completed')">
+                                <div class="panel panel-primary" style="background:#3ff600;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                            </div>
+
+
+                          <div class="col-lg-6" ng-repeat="class in filtered6 = (classes | filter:'Technical Electives' | filter:'In-Progress')">
+                                <div class="panel panel-primary" style="background:orange;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                                </div>
+
+                          <div class="col-lg-6" ng-repeat="class in filtered5 = (classes | filter:'Technical Electives' | filter:'Registered')">
+                                <div class="panel panel-primary" style="background:red;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                            </div>
+                          
+
+                                <div class="col-lg-6" ng-repeat="class in noFilter2">
+                                <div class="panel panel-primary">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+
+                            </div>
+
+                              
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                            Social Sciences and Humanities
+                          </a>
+                            <div class="progress">
+                              <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{filtered7.length*100/9}}%">
+                                Completed
+                              </div>
+                              <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{filtered9.length*100/9}}%">
+                                In Progress
+                              </div>
+                              <div class="progress-bar progress-bar-danger" role="progressbar" style="width:{{filtered8.length*100/9}}%">
+                                Registered
+                              </div>
+                               <div class="progress-bar progress-bar-info" role="progressbar" style="width:{{noFilter3.length*100/9}}%">
+                                What-Ifs
+                              </div>
+                          </div>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                      <div class="container-fluid">
+                          <div class="row">
+                          <div class="col-lg-6" ng-repeat="class in filtered7 = (classes | filter:'Social Sciences and Humanities' | filter:'Completed')">
+                                <div class="panel panel-primary" style="background:#3ff600;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                            </div>
+
+                          <div class="col-lg-6" ng-repeat="class in filtered8 = (classes | filter:'Social Sciences and Humanities' | filter:'Registered')">
+                                <div class="panel panel-primary" style="background:red;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                            </div>
+                          <div class="col-lg-6" ng-repeat="class in filtered9 = (classes | filter:'Social Sciences and Humanities' | filter:'In-Progress')">
+                                <div class="panel panel-primary" style="background:orange;">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+                                </div>
+
+                                <div class="col-lg-6" ng-repeat="class in noFilter3">
+                                <div class="panel panel-primary">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">{{class.course_number}} - {{class.course_name}}</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                    <span class="label label-default" ng-repeat="req in class.requirement">{{req}}</span>
+                                    <span class="label label-default" ng-repeat="subreq in class.subrequirement">{{subreq}}</span>
+
+                                    <hr>
+                                      Grade:{{class.grade}}
+                                      <hr>
+                                      Semester:{{class.semester}}
+                                    <hr>
+                                     Credit Hours:{{class.hours}}
+                                  </div>
+                                </div>
+
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div  style="width: 30%;" class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">Choose a class you want to take</div>
+      <div class="panel-body" ng-repeat="class in filtered10 = (classes | filter:'What-If')">
+      
+      <button  ng-click="add(class)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">{{class.course_number}} <i class="fa fa-plus" aria-hidden="true"></i></button>
+      <!-- Modal -->
+  <!--<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Attention!</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure to add this class?</p>
+        </div>
+        <div class="modal-footer">
+          <button style="float: left;:" type="button" class="btn btn-default" data-dismiss="modal">Add</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>-->
+</div>
+      </div>
+    </div>
+</div>
+
+
+    </div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <!-- Latest compiled and minified CSS -->
+  <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="app.js"></script>
+  <script src="view1/view1.js"></script>
+  <script src="view2/view2.js"></script>
+  <script src="components/version/version.js"></script>
+  <script src="components/version/version-directive.js"></script>
+  <script src="components/version/interpolate-filter.js"></script>
+
+</body>
+</html>
